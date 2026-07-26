@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #F6F5F2; }
+  * { box-sizing: border-box; }
+  a { color: #0E0F11; text-decoration: none; }
+  a:hover { color: #B4762C; }
+  select, input, textarea, button { font-family: inherit; }
+  ::selection { background: #B4762C; color: #fff; }
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="font-family: 'Instrument Sans', Helvetica, Arial, sans-serif; color: #0E0F11; background: #F6F5F2; min-height: 100vh; -webkit-font-smoothing: antialiased;">
+
+  <div style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 20px; background: #0E0F11; color: #F6F5F2; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;">
+    <span style="color: #8A8A8A;">Prototype</span>
+    <div style="display: flex; gap: 4px; background: #1A1C1F; padding: 3px; border-radius: 2px;">
+      <button onClick="{{ goHome }}" style="{{ tabHome }}">Home</button>
+      <button onClick="{{ goList }}" style="{{ tabList }}">Occasions</button>
+      <button onClick="{{ goDetail }}" style="{{ tabDetail }}">Detail</button>
+      <button onClick="{{ goSell }}" style="{{ tabSell }}">Verkopen</button>
+      <button onClick="{{ goAbout }}" style="{{ tabAbout }}">Over ons</button>
+      <button onClick="{{ goContact }}" style="{{ tabContact }}">Contact</button>
+    </div>
+    <div style="display: flex; gap: 4px; background: #1A1C1F; padding: 3px; border-radius: 2px;">
+      <button onClick="{{ setDesktop }}" style="{{ tabDesktop }}">Desktop</button>
+      <button onClick="{{ setMobile }}" style="{{ tabMobile }}">Mobiel</button>
+    </div>
+    <span style="margin-left: auto; color: #6E6E6E; text-transform: none; letter-spacing: 0;">ffcars.nl — voorstel · echte voorraad</span>
+  </div>
+
+  <div style="{{ frameStyle }}">
+
+    <header style="position: sticky; top: 0; z-index: 50; background: rgba(246,245,242,0.94); backdrop-filter: blur(10px); border-bottom: 1px solid #E2DFD9;">
+      <div style="{{ headerRowStyle }}">
+        <a href="#top" onClick="{{ goHome }}" style="display: flex; align-items: center; background: #0E0F11; border-radius: 2px; padding: 7px 12px;">
+          <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=180,fit=crop/YrD4BwB2MWi5x2nJ/2-7CVSyjv09sICH1wy.png" alt="F&amp;F Cars B.V." style="height: 30px; width: auto; display: block;" />
+        </a>
+        <nav style="{{ navStyle }}">
+          <a href="#top" onClick="{{ goHome }}" data-i18n="nav.home" style="{{ navHome }}" style-hover="border-bottom: 2px solid #B4762C;">Home</a>
+          <a href="#top" onClick="{{ goList }}" data-i18n="nav.stock" style="{{ navStock }}" style-hover="border-bottom: 2px solid #B4762C;">Aanbod</a>
+          <a href="#top" onClick="{{ goSell }}" data-i18n="nav.sell" style="{{ navSell }}" style-hover="border-bottom: 2px solid #B4762C;">Auto verkopen</a>
+          <a href="#top" onClick="{{ goAbout }}" data-i18n="nav.about" style="{{ navAbout }}" style-hover="border-bottom: 2px solid #B4762C;">Over ons</a>
+          <a href="#top" onClick="{{ goContact }}" data-i18n="nav.contact" style="{{ navContact }}" style-hover="border-bottom: 2px solid #B4762C;">Contact</a>
+        </nav>
+        <div style="{{ headerActionsStyle }}">
+          <select value="{{ lang }}" onChange="{{ onLang }}" aria-label="Taal / Language" style="appearance: none; border: 1px solid #D8D4CC; background: #fff; border-radius: 2px; padding: 8px 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: #0E0F11; cursor: pointer;">
+            <option value="nl">NL</option>
+            <option value="en">EN</option>
+          </select>
+          <a href="tel:+31621336156" style="{{ headerWaStyle }}" style-hover="background: #B4762C;">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #B4762C; display: inline-block;"></span>
+            <span>06 21 33 61 56</span>
+          </a>
+          <a href="https://wa.me/31621336156" aria-label="WhatsApp" style="{{ headerWaIconStyle }}" style-hover="border-color: #0E0F11;">WA</a>
+        </div>
+      </div>
+    </header>
+
+    <div style="background: #fff; border-bottom: 1px solid #E2DFD9;">
+      <div style="max-width: 1240px; margin: 0 auto; padding: 8px 24px; display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between;">
+        <span data-i18n="strip.claim" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A;">Rijklaar · APK · 6 mnd garantie</span>
+        <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 7px;">
+            <span style="color: #B4762C; font-size: 13px; letter-spacing: 1px;">★★★★★</span>
+            <span style="font-family: 'Archivo', sans-serif; font-size: 14px; font-weight: 700;">4,5</span>
+            <span style="font-size: 12px; color: #8A8A8A;">/ 22</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="uploads/bovag.png" alt="BOVAG" style="height: 30px; width: auto; display: block;" />
+            <img src="uploads/rdw.png" alt="RDW erkend bedrijf" style="height: 34px; width: auto; display: block;" />
+            <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.06em; color: #4A4C50;">NAP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <main id="top">
+
+        <section style="position: relative; background: #0E0F11; color: #F6F5F2; overflow: hidden;">
+          <div style="position: absolute; inset: 0; background: #0E0F11 url('https://images.unsplash.com/photo-1574023240744-64c47c8c0676?fm=jpg&amp;q=70&amp;w=2200&amp;auto=format&amp;fit=crop') center 52%/cover no-repeat;"></div>
+          <div style="position: absolute; inset: 0; background: linear-gradient(95deg, rgba(14,15,17,0.95) 0%, rgba(14,15,17,0.88) 36%, rgba(14,15,17,0.58) 72%, rgba(14,15,17,0.42) 100%);"></div>
+          <div style="position: relative; max-width: 1240px; margin: 0 auto; padding: clamp(56px, 9vw, 116px) 24px clamp(40px, 6vw, 76px);">
+            <p data-i18n="hero.eyebrow" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #B4762C; margin: 0 0 20px;">Almere · Bolderweg 34A · KvK 98330004</p>
+            <h1 data-i18n="hero.title" style="font-family: 'Archivo', Helvetica, sans-serif; font-weight: 700; font-size: clamp(34px, 6vw, 66px); line-height: 1.03; letter-spacing: -0.025em; margin: 0 0 20px; max-width: 15ch; text-wrap: balance;">Betrouwbare occasions, rijklaar geleverd.</h1>
+            <p data-i18n="hero.sub" style="font-size: clamp(15px, 1.4vw, 18px); line-height: 1.55; color: #C9C6C0; max-width: 48ch; margin: 0 0 32px;">19 auto's op voorraad in onze showroom in Almere — van een smart forTwo van € 1.750 tot een Audi A8 W12. Elke auto met APK, beurt, NAP-controle en 6 maanden garantie.</p>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button onClick="{{ goList }}" data-i18n="hero.cta1" style="background: #F6F5F2; color: #0E0F11; border: none; border-radius: 2px; padding: 16px 26px; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #B4762C; color: #fff;">Bekijk alle 19 auto's</button>
+              <button onClick="{{ goContact }}" data-i18n="hero.cta2" style="background: none; border: 1px solid #4A4C50; color: #F6F5F2; border-radius: 2px; padding: 16px 26px; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="border-color: #F6F5F2;">Plan een bezichtiging</button>
+            </div>
+          </div>
+
+          <div style="position: relative; border-top: 1px solid #24262A; background: rgba(14,15,17,0.6);">
+            <div style="max-width: 1240px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;">
+              <div style="flex: 1 1 150px;">
+                <label data-i18n="f.brand" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Merk</label>
+                <select value="{{ fBrand }}" onChange="{{ onBrand }}" style="width: 100%; appearance: none; background: #1A1C1F; color: #F6F5F2; border: 1px solid #33363A; border-radius: 2px; padding: 12px; font-size: 14px; cursor: pointer;">
+                  <sc-for list="{{ brandOptions }}" as="b" hint-placeholder-count="4">
+                    <option value="{{ b.value }}">{{ b.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div style="flex: 1 1 150px;">
+                <label data-i18n="f.maxprice" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Prijs tot</label>
+                <select value="{{ fPrice }}" onChange="{{ onPrice }}" style="width: 100%; appearance: none; background: #1A1C1F; color: #F6F5F2; border: 1px solid #33363A; border-radius: 2px; padding: 12px; font-size: 14px; cursor: pointer;">
+                  <sc-for list="{{ priceOptions }}" as="p" hint-placeholder-count="4">
+                    <option value="{{ p.value }}">{{ p.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div style="flex: 1 1 150px;">
+                <label data-i18n="f.gear" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Transmissie</label>
+                <select value="{{ fGear }}" onChange="{{ onGear }}" style="width: 100%; appearance: none; background: #1A1C1F; color: #F6F5F2; border: 1px solid #33363A; border-radius: 2px; padding: 12px; font-size: 14px; cursor: pointer;">
+                  <sc-for list="{{ gearOptions }}" as="g" hint-placeholder-count="3">
+                    <option value="{{ g.value }}">{{ g.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <button onClick="{{ goList }}" style="flex: 0 0 auto; background: #B4762C; color: #fff; border: none; border-radius: 2px; padding: 13px 24px; font-size: 14px; font-weight: 600; cursor: pointer;" style-hover="background: #C88A3C;">
+                <span data-i18n="f.search">Zoek</span> · <span>{{ resultCount }}</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section style="max-width: 1240px; margin: 0 auto; padding: clamp(48px, 6vw, 80px) 24px;">
+          <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 28px;">
+            <div>
+              <p data-i18n="feat.eyebrow" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #B4762C; margin: 0 0 10px;">Uitgelicht aanbod</p>
+              <h2 data-i18n="feat.title" style="font-family: 'Archivo', Helvetica, sans-serif; font-weight: 600; font-size: clamp(26px, 3.4vw, 40px); letter-spacing: -0.02em; margin: 0;">Nieuw in de showroom</h2>
+            </div>
+            <button onClick="{{ goList }}" data-i18n="feat.all" style="background: none; border: 1px solid #0E0F11; border-radius: 2px; padding: 13px 20px; font-size: 14px; font-weight: 600; cursor: pointer;" style-hover="background: #0E0F11; color: #F6F5F2;">Alle 19 auto's</button>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(272px, 1fr)); gap: 20px;">
+            <sc-for list="{{ featured }}" as="car" hint-placeholder-count="6">
+              <article onClick="{{ car.open }}" style="background: #fff; border: 1px solid #E2DFD9; border-radius: 3px; overflow: hidden; cursor: pointer; display: flex; flex-direction: column;" style-hover="border-color: #0E0F11;">
+                <div style="{{ car.coverStyle }}">
+                  <span style="{{ car.slotStyle }}">{{ car.slot }}</span>
+                  <span style="{{ car.countStyle }}">{{ car.photoLabel }}</span>
+                  <span style="{{ car.exampleStyle }}">VOORBEELDFOTO</span>
+                </div>
+                <div style="padding: 16px; display: flex; flex-direction: column; gap: 10px; flex: 1;">
+                  <div>
+                    <h3 style="font-family: 'Archivo', Helvetica, sans-serif; font-weight: 600; font-size: 17px; margin: 0 0 3px; letter-spacing: -0.01em;">{{ car.name }}</h3>
+                    <p style="margin: 0; font-size: 13px; color: #6E6E6E; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ car.trim }}</p>
+                  </div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 6px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #4A4C50;">
+                    <span>{{ car.reg }}</span><span style="color: #C9C6C0;">·</span>
+                    <span>{{ car.kmLabel }}</span><span style="color: #C9C6C0;">·</span>
+                    <span>{{ car.gear }}</span><span style="color: #C9C6C0;">·</span>
+                    <span>{{ car.hpLabel }}</span>
+                  </div>
+                  <div style="margin-top: auto; padding-top: 12px; border-top: 1px solid #EFEDE9; display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+                    <span style="font-family: 'Archivo', Helvetica, sans-serif; font-weight: 700; font-size: 21px;">{{ car.priceLabel }}</span>
+                    <span style="font-size: 12px; color: #6E6E6E;">{{ car.monthLabel }}</span>
+                  </div>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+        </section>
+
+        <section style="background: #fff; border-top: 1px solid #E2DFD9; border-bottom: 1px solid #E2DFD9;">
+          <div style="max-width: 1240px; margin: 0 auto; padding: clamp(48px, 6vw, 76px) 24px;">
+            <p data-i18n="incl.eyebrow" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #B4762C; margin: 0 0 10px;">Rijklaar geleverd</p>
+            <h2 data-i18n="incl.title" style="font-family: 'Archivo', Helvetica, sans-serif; font-weight: 600; font-size: clamp(24px, 3vw, 36px); letter-spacing: -0.02em; margin: 0 0 32px; max-width: 24ch;">Wat er bij elke auto is inbegrepen</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: #E2DFD9; border: 1px solid #E2DFD9;">
+              <div style="background: #fff; padding: 24px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #B4762C; margin-bottom: 12px;">01</div>
+                <h3 data-i18n="incl.1t" style="font-family: 'Archivo', sans-serif; font-size: 17px; font-weight: 600; margin: 0 0 8px;">Nieuwe APK</h3>
+                <p data-i18n="incl.1b" style="margin: 0; font-size: 14px; line-height: 1.55; color: #6E6E6E;">Volledige keuring bij aflevering, geen verrassingen achteraf.</p>
+              </div>
+              <div style="background: #fff; padding: 24px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #B4762C; margin-bottom: 12px;">02</div>
+                <h3 data-i18n="incl.2t" style="font-family: 'Archivo', sans-serif; font-size: 17px; font-weight: 600; margin: 0 0 8px;">Onderhoudsbeurt</h3>
+                <p data-i18n="incl.2b" style="margin: 0; font-size: 14px; line-height: 1.55; color: #6E6E6E;">Olie, filters en vloeistoffen vervangen voordat u wegrijdt.</p>
+              </div>
+              <div style="background: #fff; padding: 24px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #B4762C; margin-bottom: 12px;">03</div>
+                <h3 data-i18n="incl.3t" style="font-family: 'Archivo', sans-serif; font-size: 17px; font-weight: 600; margin: 0 0 8px;">6 maanden garantie</h3>
+                <p data-i18n="incl.3b" style="margin: 0; font-size: 14px; line-height: 1.55; color: #6E6E6E;">Uit te breiden naar 12 maanden. Voorwaarden op één pagina.</p>
+              </div>
+              <div style="background: #fff; padding: 24px;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #B4762C; margin-bottom: 12px;">04</div>
+                <h3 data-i18n="incl.4t" style="font-family: 'Archivo', sans-serif; font-size: 17px; font-weight: 600; margin: 0 0 8px;">NAP-rapport</h3>
+                <p data-i18n="incl.4b" style="margin: 0; font-size: 14px; line-height: 1.55; color: #6E6E6E;">Gecontroleerde kilometerstand, rapport bij elke advertentie.</p>
+              </div>
+            </div>
+            <p data-i18n="incl.note" style="margin: 16px 0 0; font-size: 13px; color: #8A8A8A;">Afleverkosten € 395 · inruil mogelijk · financiering en BOVAG-garantie in overleg.</p>
+          </div>
+        </section>
+
+        <section style="max-width: 1240px; margin: 0 auto; padding: clamp(40px, 5vw, 64px) 24px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            <button onClick="{{ goSell }}" style="text-align: left; background: #fff; border: 1px solid #E2DFD9; border-radius: 3px; padding: 24px; cursor: pointer;" style-hover="border-color: #0E0F11;">
+              <span data-i18n="teaser.sellEyebrow" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #B4762C; margin-bottom: 10px;">Inkoop</span>
+              <span data-i18n="sell.title" style="display: block; font-family: 'Archivo', sans-serif; font-size: 20px; font-weight: 600; margin-bottom: 8px;">Uw auto verkopen? Bod binnen 24 uur.</span>
+              <span data-i18n="teaser.sellLink" style="display: block; font-size: 14px; font-weight: 600; color: #B4762C;">Kenteken invullen →</span>
+            </button>
+            <button onClick="{{ goAbout }}" style="text-align: left; background: #fff; border: 1px solid #E2DFD9; border-radius: 3px; padding: 24px; cursor: pointer;" style-hover="border-color: #0E0F11;">
+              <span data-i18n="teaser.aboutEyebrow" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #B4762C; margin-bottom: 10px;">Over ons</span>
+              <span data-i18n="teaser.aboutTitle" style="display: block; font-family: 'Archivo', sans-serif; font-size: 20px; font-weight: 600; margin-bottom: 8px;">Wie wij zijn en waar u ons vindt</span>
+              <span data-i18n="teaser.aboutLink" style="display: block; font-size: 14px; font-weight: 600; color: #B4762C;">Showroom en openingstijden →</span>
+            </button>
+          </div>
+        </section>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isSell }}" hint-placeholder-val="{{ false }}">
+      <main id="top">
+        <section id="verkopen" style="background: #0E0F11; color: #F6F5F2;">
+          <div style="max-width: 1240px; margin: 0 auto; padding: clamp(48px, 6vw, 76px) 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: start;">
+            <div>
+              <p data-i18n="sell.eyebrow" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #B4762C; margin: 0 0 10px;">Inkoop</p>
+              <h2 data-i18n="sell.title" style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: clamp(26px, 3.4vw, 40px); letter-spacing: -0.02em; margin: 0 0 16px; max-width: 20ch;">Uw auto verkopen? Bod binnen 24 uur.</h2>
+              <p data-i18n="sell.body" style="font-size: 16px; line-height: 1.6; color: #C9C6C0; max-width: 44ch; margin: 0 0 24px;">Vul uw kenteken in of stuur een bericht via WhatsApp. Wij kopen ook in zonder dat u iets terugkoopt.</p>
+              <a href="https://wa.me/31621336156" style="display: inline-block; border: 1px solid #4A4C50; color: #F6F5F2; border-radius: 2px; padding: 14px 22px; font-size: 14px; font-weight: 600;" style-hover="border-color: #F6F5F2;">WhatsApp: 06 21 33 61 56</a>
+            </div>
+            <div style="background: #16181B; border: 1px solid #24262A; padding: 24px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px;">
+                <div>
+                  <label data-i18n="sell.plate" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Kenteken</label>
+                  <input placeholder="XX-123-X" style="width: 100%; background: #FFD24A; color: #0E0F11; border: none; border-radius: 3px; padding: 13px; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase;" />
+                </div>
+                <div>
+                  <label data-i18n="sell.km" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Kilometerstand</label>
+                  <input placeholder="120.000" style="width: 100%; background: #1A1C1F; color: #F6F5F2; border: 1px solid #33363A; border-radius: 2px; padding: 13px; font-size: 15px;" />
+                </div>
+                <div>
+                  <label data-i18n="sell.phone" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Telefoon</label>
+                  <input placeholder="06 …" style="width: 100%; background: #1A1C1F; color: #F6F5F2; border: 1px solid #33363A; border-radius: 2px; padding: 13px; font-size: 15px;" />
+                </div>
+                <div>
+                  <label data-i18n="sell.email" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">E-mail</label>
+                  <input placeholder="naam@mail.nl" style="width: 100%; background: #1A1C1F; color: #F6F5F2; border: 1px solid #33363A; border-radius: 2px; padding: 13px; font-size: 15px;" />
+                </div>
+              </div>
+              <button data-i18n="sell.cta" style="margin-top: 16px; width: 100%; background: #B4762C; color: #fff; border: none; border-radius: 2px; padding: 15px; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #C88A3C;">Vraag mijn bod aan</button>
+              <p data-i18n="sell.small" style="margin: 12px 0 0; font-size: 12px; color: #6E6E6E; text-align: center;">Geen verplichtingen. Reactie binnen 1 werkdag.</p>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+      <main id="top">
+        <section id="over-ons" style="max-width: 1240px; margin: 0 auto; padding: clamp(48px, 6vw, 76px) 24px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; align-items: center;">
+            <div>
+              <p data-i18n="about.eyebrow" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #B4762C; margin: 0 0 10px;">Over F&amp;F Cars</p>
+              <h2 data-i18n="about.title" style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: clamp(24px, 3vw, 34px); letter-spacing: -0.02em; margin: 0 0 16px; max-width: 22ch;">Eenvoudig, transparant en zorgeloos een auto kopen</h2>
+              <p data-i18n="about.body" style="font-size: 16px; line-height: 1.65; color: #4A4C50; max-width: 52ch; margin: 0 0 20px;">Vanuit onze vestiging in Almere zijn wij gespecialiseerd in de in- en verkoop van kwalitatieve occasions. Elke auto wordt zorgvuldig geselecteerd, geïnspecteerd en klaargemaakt. Wij bouwen liever een langdurige relatie op dan dat we een transactie afronden.</p>
+              <button onClick="{{ goContact }}" data-i18n="about.cta" style="background: none; border: 1px solid #0E0F11; border-radius: 2px; padding: 13px 20px; font-size: 14px; font-weight: 600; cursor: pointer;" style-hover="background: #0E0F11; color: #F6F5F2;">Kom langs in Almere</button>
+            </div>
+            <div style="{{ aboutPhotoStyle }}">
+              <span style="position: absolute; bottom: 10px; left: 10px; background: rgba(246,245,242,0.92); color: #6E6E6E; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; padding: 4px 7px;">VOORBEELDFOTO — TEAM / SHOWROOM</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: #E2DFD9; border: 1px solid #E2DFD9;">
+            <div style="background: #fff; padding: 22px;">
+              <h3 data-i18n="show.addr" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 12px;">Adres</h3>
+              <div style="font-size: 15px; line-height: 1.6;">
+                <div>Bolderweg 34A</div>
+                <div>1332 AW Almere</div>
+              </div>
+              <a href="https://maps.google.com/?q=Bolderweg+34A+1332AW+Almere" data-i18n="show.route" style="display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 600; color: #B4762C; border-bottom: 1px solid #B4762C;">Route plannen →</a>
+            </div>
+            <div style="background: #fff; padding: 22px;">
+              <h3 data-i18n="show.hours" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 12px;">Openingstijden</h3>
+              <div style="display: grid; gap: 6px; font-size: 15px;">
+                <div style="display: flex; justify-content: space-between; gap: 12px;"><span data-i18n="show.d1" style="color: #6E6E6E;">Maandag – zaterdag</span><span style="font-weight: 500;">10:00 – 18:00</span></div>
+                <div style="display: flex; justify-content: space-between; gap: 12px;"><span data-i18n="show.d3" style="color: #6E6E6E;">Zondag</span><span data-i18n="show.closed" style="font-weight: 500;">Gesloten</span></div>
+              </div>
+            </div>
+            <div style="background: #fff; padding: 22px;">
+              <h3 data-i18n="show.contact" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 12px;">Direct contact</h3>
+              <div style="display: grid; gap: 8px; font-size: 15px;">
+                <a href="tel:+31621336156" style="font-weight: 600;">06 21 33 61 56</a>
+                <a href="https://wa.me/31621336156">WhatsApp</a>
+                <a href="mailto:contact@ffcars.nl">contact@ffcars.nl</a>
+                <span style="font-size: 13px; color: #6E6E6E;">Sales: Fatih · KvK 98330004</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div style="{{ footerSlot }}"></div>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isList }}" hint-placeholder-val="{{ false }}">
+      <main id="top" style="max-width: 1240px; margin: 0 auto; padding: 28px 24px 80px;">
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 12px;">
+          <a href="#top" onClick="{{ goHome }}" data-i18n="nav.home" style="color: #8A8A8A;">Home</a> / <span data-i18n="nav.stock" style="color: #0E0F11;">Aanbod</span>
+        </p>
+        <h1 data-i18n="list.title" style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: clamp(26px, 3.4vw, 40px); letter-spacing: -0.02em; margin: 0 0 24px;">Ons aanbod</h1>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+          <aside style="flex: 1 1 240px; max-width: 280px; position: sticky; top: 88px; background: #fff; border: 1px solid #E2DFD9; padding: 20px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 18px;">
+              <h2 data-i18n="list.filters" style="font-family: 'Archivo', sans-serif; font-size: 15px; font-weight: 600; margin: 0;">Filters</h2>
+              <button onClick="{{ resetFilters }}" data-i18n="list.reset" style="background: none; border: none; padding: 0; font-size: 12px; color: #B4762C; cursor: pointer; text-decoration: underline;">Wissen</button>
+            </div>
+            <div style="display: grid; gap: 16px;">
+              <div>
+                <label data-i18n="f.brand" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Merk</label>
+                <select value="{{ fBrand }}" onChange="{{ onBrand }}" style="width: 100%; appearance: none; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 11px; font-size: 14px; cursor: pointer;">
+                  <sc-for list="{{ brandOptions }}" as="b" hint-placeholder-count="4">
+                    <option value="{{ b.value }}">{{ b.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div>
+                <label data-i18n="f.maxprice" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Prijs tot</label>
+                <select value="{{ fPrice }}" onChange="{{ onPrice }}" style="width: 100%; appearance: none; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 11px; font-size: 14px; cursor: pointer;">
+                  <sc-for list="{{ priceOptions }}" as="p" hint-placeholder-count="4">
+                    <option value="{{ p.value }}">{{ p.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div>
+                <label data-i18n="f.body" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Carrosserie</label>
+                <select value="{{ fBody }}" onChange="{{ onBody }}" style="width: 100%; appearance: none; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 11px; font-size: 14px; cursor: pointer;">
+                  <sc-for list="{{ bodyOptions }}" as="b" hint-placeholder-count="4">
+                    <option value="{{ b.value }}">{{ b.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div>
+                <label data-i18n="f.gear" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Transmissie</label>
+                <div style="display: flex; gap: 6px;">
+                  <sc-for list="{{ gearChips }}" as="g" hint-placeholder-count="3">
+                    <button onClick="{{ g.pick }}" style="{{ g.style }}">{{ g.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div>
+                <label style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Max. km — <span>{{ kmLabel }}</span></label>
+                <input type="range" min="20000" max="270000" step="10000" value="{{ fKm }}" onChange="{{ onKm }}" style="width: 100%; accent-color: #B4762C;" />
+              </div>
+              <div>
+                <label style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Bouwjaar vanaf — <span>{{ fYear }}</span></label>
+                <input type="range" min="2000" max="2025" step="1" value="{{ fYear }}" onChange="{{ onYear }}" style="width: 100%; accent-color: #B4762C;" />
+              </div>
+            </div>
+            <div style="margin-top: 22px; padding-top: 18px; border-top: 1px solid #EFEDE9; font-size: 13px; color: #6E6E6E; line-height: 1.55;">
+              <span data-i18n="list.help">Hulp bij kiezen? Bel Fatih.</span>
+              <a href="tel:+31621336156" style="display: block; margin-top: 6px; font-weight: 600; color: #0E0F11;">06 21 33 61 56</a>
+            </div>
+          </aside>
+
+          <div style="flex: 3 1 480px; min-width: 280px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; background: #fff; border: 1px solid #E2DFD9; padding: 12px 16px; margin-bottom: 16px;">
+              <span style="font-size: 14px; font-weight: 600;"><span>{{ resultCount }}</span> <span data-i18n="list.results">resultaten</span></span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span data-i18n="list.sort" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A;">Sorteer</span>
+                <select value="{{ sort }}" onChange="{{ onSort }}" style="appearance: none; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 9px 12px; font-size: 13px; cursor: pointer;">
+                  <sc-for list="{{ sortOptions }}" as="s" hint-placeholder-count="5">
+                    <option value="{{ s.value }}">{{ s.label }}</option>
+                  </sc-for>
+                </select>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 16px;">
+              <sc-for list="{{ visibleCars }}" as="car" hint-placeholder-count="9">
+                <article onClick="{{ car.open }}" style="background: #fff; border: 1px solid #E2DFD9; border-radius: 3px; overflow: hidden; cursor: pointer; display: flex; flex-direction: column;" style-hover="border-color: #0E0F11;">
+                  <div style="{{ car.coverStyle }}">
+                    <span style="{{ car.slotStyle }}">{{ car.slot }}</span>
+                    <span style="{{ car.countStyle }}">{{ car.photoLabel }}</span>
+                    <span style="{{ car.exampleStyle }}">VOORBEELDFOTO</span>
+                    <span style="{{ car.dealStyle }}">{{ car.dealLabel }}</span>
+                  </div>
+                  <div style="padding: 14px; display: flex; flex-direction: column; gap: 9px; flex: 1;">
+                    <div>
+                      <h3 style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 16px; margin: 0 0 3px; letter-spacing: -0.01em;">{{ car.name }}</h3>
+                      <p style="margin: 0; font-size: 13px; color: #6E6E6E; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ car.trim }}</p>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                      <sc-for list="{{ car.tags }}" as="t" hint-placeholder-count="3">
+                        <span style="background: #F6F5F2; border: 1px solid #E2DFD9; font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 7px; color: #4A4C50;">{{ t }}</span>
+                      </sc-for>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px 9px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #4A4C50;">
+                      <span>{{ car.reg }}</span><span style="color: #C9C6C0;">·</span>
+                      <span>{{ car.kmLabel }}</span><span style="color: #C9C6C0;">·</span>
+                      <span>{{ car.gear }}</span><span style="color: #C9C6C0;">·</span>
+                      <span>{{ car.hpLabel }}</span>
+                    </div>
+                    <div style="margin-top: auto; padding-top: 11px; border-top: 1px solid #EFEDE9; display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+                      <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 20px;">{{ car.priceLabel }}</span>
+                      <span style="font-size: 12px; color: #6E6E6E;">{{ car.monthLabel }}</span>
+                    </div>
+                    <div style="display: flex; gap: 6px;">
+                      <button onClick="{{ car.open }}" data-i18n="card.view" style="flex: 1; background: #0E0F11; color: #F6F5F2; border: none; border-radius: 2px; padding: 11px; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="background: #B4762C;">Bekijken</button>
+                      <a href="https://wa.me/31621336156" aria-label="WhatsApp over deze auto" style="border: 1px solid #D8D4CC; border-radius: 2px; padding: 11px 13px; font-size: 13px; font-weight: 600;" style-hover="border-color: #0E0F11;">WA</a>
+                    </div>
+                  </div>
+                </article>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #fff; border: 1px solid #E2DFD9; padding: 40px; text-align: center;">
+                <p data-i18n="list.empty" style="margin: 0 0 14px; font-size: 15px;">Geen auto's gevonden met deze filters.</p>
+                <button onClick="{{ resetFilters }}" data-i18n="list.reset" style="background: #0E0F11; color: #F6F5F2; border: none; border-radius: 2px; padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer;">Wissen</button>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+      <main id="top" style="max-width: 1240px; margin: 0 auto; padding: 22px 24px 80px;">
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 16px;">
+          <a href="#top" onClick="{{ goList }}" data-i18n="nav.stock" style="color: #8A8A8A;">Aanbod</a> / <span style="color: #0E0F11;">{{ sel.name }}</span>
+        </p>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start;">
+          <div style="flex: 3 1 460px; min-width: 280px;">
+            <div style="{{ heroPhotoStyle }}">
+              <span style="{{ heroSlotStyle }}">{{ galleryLabel }}</span>
+              <button onClick="{{ prevPhoto }}" aria-label="Vorige foto" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: rgba(14,15,17,0.8); color: #fff; border: none; border-radius: 50%; font-size: 18px; cursor: pointer;">‹</button>
+              <button onClick="{{ nextPhoto }}" aria-label="Volgende foto" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: rgba(14,15,17,0.8); color: #fff; border: none; border-radius: 50%; font-size: 18px; cursor: pointer;">›</button>
+              <span style="{{ counterStyle }}">{{ photoCounter }}</span>
+              <span style="{{ sel.exampleStyle }}">VOORBEELDFOTO</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; margin-top: 8px;">
+              <sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="6">
+                <button onClick="{{ t.pick }}" style="{{ t.style }}">{{ t.label }}</button>
+              </sc-for>
+            </div>
+
+            <h1 style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 34px); letter-spacing: -0.022em; margin: 28px 0 6px;">{{ sel.name }}</h1>
+            <p style="margin: 0 0 14px; font-size: 16px; color: #4A4C50;">{{ sel.trim }}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 32px;">
+              <sc-for list="{{ sel.equipment }}" as="e" hint-placeholder-count="5">
+                <span style="background: #fff; border: 1px solid #E2DFD9; font-size: 12px; padding: 6px 10px; color: #4A4C50;">{{ e }}</span>
+              </sc-for>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1px; background: #E2DFD9; border: 1px solid #E2DFD9; margin-bottom: 32px;">
+              <sc-for list="{{ highlights }}" as="h" hint-placeholder-count="4">
+                <div style="background: #fff; padding: 16px;">
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 6px;">{{ h.k }}</div>
+                  <div style="font-family: 'Archivo', sans-serif; font-size: 16px; font-weight: 600;">{{ h.v }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <h2 data-i18n="det.specs" style="font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600; margin: 0 0 14px;">Specificaties</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 32px; background: #fff; border: 1px solid #E2DFD9; padding: 8px 20px;">
+              <sc-for list="{{ specs }}" as="s" hint-placeholder-count="14">
+                <div style="display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #EFEDE9; font-size: 14px;">
+                  <span style="color: #6E6E6E;">{{ s.k }}</span>
+                  <span style="font-weight: 500; text-align: right;">{{ s.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <h2 data-i18n="det.options" style="font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600; margin: 32px 0 14px;">Uitrusting</h2>
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px 24px;">
+              <sc-for list="{{ options }}" as="o" hint-placeholder-count="12">
+                <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5;">
+                  <span style="color: #B4762C; font-weight: 700;">✓</span>
+                  <span>{{ o }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <h2 data-i18n="det.delivery" style="font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600; margin: 32px 0 14px;">Rijklaar geleverd</h2>
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 20px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                  <span style="color: #B4762C; font-weight: 700;">✓</span>
+                  <span data-i18n="det.d1" style="font-size: 14px; line-height: 1.5;">Nieuwe APK bij aflevering</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                  <span style="color: #B4762C; font-weight: 700;">✓</span>
+                  <span data-i18n="det.d2" style="font-size: 14px; line-height: 1.5;">Grote onderhoudsbeurt</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                  <span style="color: #B4762C; font-weight: 700;">✓</span>
+                  <span data-i18n="det.d3" style="font-size: 14px; line-height: 1.5;">6 maanden garantie (12 optioneel)</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: flex-start;">
+                  <span style="color: #B4762C; font-weight: 700;">✓</span>
+                  <span data-i18n="det.d4" style="font-size: 14px; line-height: 1.5;">NAP-gecontroleerde kilometerstand</span>
+                </div>
+              </div>
+              <p data-i18n="det.dnote" style="margin: 16px 0 0; padding-top: 14px; border-top: 1px solid #EFEDE9; font-size: 13px; color: #6E6E6E;">Afleverkosten € 395 (kentekenoverdracht, tanken, reiniging). Inruil in overleg mogelijk.</p>
+            </div>
+
+            <h2 id="financiering" data-i18n="fin.title" style="font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600; margin: 32px 0 14px;">Financiering berekenen</h2>
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 20px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px; align-items: start;">
+                <div style="display: grid; gap: 20px;">
+                  <div>
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+                      <label data-i18n="fin.price" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A;">Aankoopprijs</label>
+                      <span style="font-family: 'Archivo', sans-serif; font-size: 15px; font-weight: 600;">{{ finPriceLabel }}</span>
+                    </div>
+                    <div style="font-size: 13px; color: #6E6E6E;">{{ bookCarLine }}</div>
+                  </div>
+                  <div>
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+                      <label data-i18n="fin.down" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A;">Aanbetaling / inruil</label>
+                      <span style="font-family: 'Archivo', sans-serif; font-size: 15px; font-weight: 600;">{{ finDownLabel }}</span>
+                    </div>
+                    <input type="range" min="0" max="{{ finDownMax }}" step="250" value="{{ finDown }}" onChange="{{ onFinDown }}" style="width: 100%; accent-color: #B4762C;" />
+                  </div>
+                  <div>
+                    <div data-i18n="fin.term" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 8px;">Looptijd</div>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                      <sc-for list="{{ finTerms }}" as="t" hint-placeholder-count="4">
+                        <button onClick="{{ t.pick }}" style="{{ t.style }}">{{ t.label }}</button>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div>
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px;">
+                      <label data-i18n="fin.rate" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A;">Rente (indicatief)</label>
+                      <span style="font-family: 'Archivo', sans-serif; font-size: 15px; font-weight: 600;">{{ finRateLabel }}</span>
+                    </div>
+                    <input type="range" min="59" max="119" step="1" value="{{ finRate }}" onChange="{{ onFinRate }}" style="width: 100%; accent-color: #B4762C;" />
+                  </div>
+                </div>
+
+                <div style="background: #0E0F11; color: #F6F5F2; padding: 24px;">
+                  <div data-i18n="fin.monthly" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 8px;">Maandlast</div>
+                  <div style="font-family: 'Archivo', sans-serif; font-size: 40px; font-weight: 700; letter-spacing: -0.025em; line-height: 1;">{{ finMonthly }}</div>
+                  <div style="display: grid; gap: 9px; margin-top: 20px; padding-top: 18px; border-top: 1px solid #24262A; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; gap: 12px;"><span data-i18n="fin.loan" style="color: #8A8A8A;">Leenbedrag</span><span style="font-weight: 500;">{{ finLoan }}</span></div>
+                    <div style="display: flex; justify-content: space-between; gap: 12px;"><span data-i18n="fin.termLbl" style="color: #8A8A8A;">Looptijd</span><span style="font-weight: 500;">{{ finTermLabel }}</span></div>
+                    <div style="display: flex; justify-content: space-between; gap: 12px;"><span data-i18n="fin.cost" style="color: #8A8A8A;">Totale rentekosten</span><span style="font-weight: 500;">{{ finInterest }}</span></div>
+                    <div style="display: flex; justify-content: space-between; gap: 12px;"><span data-i18n="fin.total" style="color: #8A8A8A;">Totaal te betalen</span><span style="font-weight: 500;">{{ finTotal }}</span></div>
+                  </div>
+                  <button onClick="{{ jumpBezichtiging }}" data-i18n="fin.cta" style="margin-top: 20px; width: 100%; background: #B4762C; color: #fff; border: none; border-radius: 2px; padding: 14px; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #C88A3C;">Aanvraag bespreken</button>
+                  <p data-i18n="fin.small" style="margin: 12px 0 0; font-size: 11px; line-height: 1.5; color: #6E6E6E;">Indicatieve berekening, geen aanbod. Definitief tarief na acceptatie door onze kredietpartner. Let op: geld lenen kost geld.</p>
+                </div>
+              </div>
+            </div>
+
+            <h2 id="bezichtiging" data-i18n="book.title" style="font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600; margin: 32px 0 14px;">Bezichtiging of proefrit inplannen</h2>
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 20px;">
+              <div style="display: flex; gap: 6px; margin-bottom: 20px;">
+                <sc-for list="{{ bookTypes }}" as="t" hint-placeholder-count="2">
+                  <button onClick="{{ t.pick }}" style="{{ t.style }}">{{ t.label }}</button>
+                </sc-for>
+              </div>
+
+              <div data-i18n="book.pickDay" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 10px;">1 · Kies een dag</div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; margin-bottom: 22px;">
+                <sc-for list="{{ bookDays }}" as="d" hint-placeholder-count="6">
+                  <button onClick="{{ d.pick }}" style="{{ d.style }}">
+                    <span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7;">{{ d.dow }}</span>
+                    <span style="display: block; font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600; margin-top: 3px;">{{ d.day }}</span>
+                    <span style="display: block; font-size: 11px; opacity: 0.7;">{{ d.month }}</span>
+                  </button>
+                </sc-for>
+              </div>
+
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px;">
+                <span data-i18n="book.pickTime" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A;">2 · Kies een tijdslot</span>
+                <span style="font-size: 12px; color: #8A8A8A;">{{ bookHours }}</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 8px;">
+                <sc-for list="{{ bookSlots }}" as="sl" hint-placeholder-count="10">
+                  <button onClick="{{ sl.pick }}" disabled="{{ sl.disabled }}" style="{{ sl.style }}">{{ sl.label }}</button>
+                </sc-for>
+              </div>
+              <p data-i18n="book.legend" style="margin: 12px 0 0; font-size: 12px; color: #8A8A8A;">Doorgestreepte tijden zijn al bezet. Duur ca. 45 minuten, inclusief proefrit.</p>
+
+              <div style="margin-top: 22px; padding-top: 20px; border-top: 1px solid #EFEDE9;">
+                <div data-i18n="book.yourDetails" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 10px;">3 · Uw gegevens</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+                  <div>
+                    <label data-i18n="form.name" style="display: block; font-size: 12px; color: #6E6E6E; margin-bottom: 6px;">Naam</label>
+                    <input style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px;" />
+                  </div>
+                  <div>
+                    <label data-i18n="form.phone" style="display: block; font-size: 12px; color: #6E6E6E; margin-bottom: 6px;">Telefoon</label>
+                    <input style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px;" />
+                  </div>
+                  <div>
+                    <label data-i18n="form.email" style="display: block; font-size: 12px; color: #6E6E6E; margin-bottom: 6px;">E-mail</label>
+                    <input style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px;" />
+                  </div>
+                </div>
+                <label style="display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; font-size: 13px; color: #4A4C50; line-height: 1.5;">
+                  <input type="checkbox" style="margin-top: 2px; accent-color: #B4762C; width: 16px; height: 16px;" />
+                  <span data-i18n="book.tradeIn">Ik wil ook een inruilvoorstel voor mijn huidige auto</span>
+                </label>
+              </div>
+
+              <div style="margin-top: 20px; padding: 16px; background: #F6F5F2; border: 1px solid #EFEDE9; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between;">
+                <div>
+                  <div data-i18n="book.summaryLabel" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 5px;">Uw afspraak</div>
+                  <div style="font-size: 15px; font-weight: 600;">{{ bookSummary }}</div>
+                  <div style="font-size: 13px; color: #6E6E6E; margin-top: 3px;">{{ bookCarLine }}</div>
+                </div>
+                <button onClick="{{ confirmBooking }}" disabled="{{ bookDisabled }}" style="{{ bookButtonStyle }}">{{ bookButtonLabel }}</button>
+              </div>
+              <div style="{{ bookedNoteStyle }}">
+                <span style="color: #B4762C; font-weight: 700;">✓</span>
+                <span>{{ bookedNote }}</span>
+              </div>
+            </div>
+
+            <h2 data-i18n="det.form" style="font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600; margin: 32px 0 14px;">Informatie aanvragen over deze auto</h2>
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 20px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px;">
+                <div>
+                  <label data-i18n="form.name" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Naam</label>
+                  <input style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px;" />
+                </div>
+                <div>
+                  <label data-i18n="form.phone" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Telefoon</label>
+                  <input style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px;" />
+                </div>
+                <div>
+                  <label data-i18n="form.email" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">E-mail</label>
+                  <input style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px;" />
+                </div>
+              </div>
+              <div style="margin-top: 14px;">
+                <label data-i18n="form.msg" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Bericht</label>
+                <textarea rows="3" defaultValue="{{ formMessage }}" style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px; resize: vertical;"></textarea>
+              </div>
+              <button data-i18n="form.send" style="margin-top: 14px; background: #0E0F11; color: #F6F5F2; border: none; border-radius: 2px; padding: 14px 22px; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #B4762C;">Verstuur aanvraag</button>
+            </div>
+          </div>
+
+          <aside style="flex: 1 1 300px; max-width: 380px; position: sticky; top: 88px; display: grid; gap: 12px;">
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 22px;">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;">
+                <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.02em;">{{ sel.priceLabel }}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: #8A8A8A; text-align: right; display: grid; gap: 2px;">
+                  <span data-i18n="det.incl1">incl. BTW</span>
+                  <span data-i18n="det.incl2">rijklaar</span>
+                </span>
+              </div>
+              <div style="{{ oldPriceStyle }}">{{ sel.oldPriceLabel }}</div>
+              <div style="margin-top: 14px; padding: 12px 14px; background: #F6F5F2; border: 1px solid #EFEDE9; display: flex; align-items: baseline; justify-content: space-between;">
+                <span data-i18n="det.finance" style="font-size: 13px; color: #4A4C50;">Financiering v.a.</span>
+                <span style="font-weight: 600; font-size: 15px;">{{ sel.monthBare }}</span>
+              </div>
+              <div style="display: grid; gap: 8px; margin-top: 16px;">
+                <button onClick="{{ jumpProefrit }}" data-i18n="det.cta1" style="background: #0E0F11; color: #F6F5F2; border: none; border-radius: 2px; padding: 15px; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #B4762C;">Proefrit inplannen</button>
+                <button onClick="{{ jumpFin }}" data-i18n="det.cta2" style="background: none; color: #0E0F11; border: 1px solid #0E0F11; border-radius: 2px; padding: 15px; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #0E0F11; color: #F6F5F2;">Financiering berekenen</button>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                  <button data-i18n="det.cta3" style="background: none; color: #0E0F11; border: 1px solid #D8D4CC; border-radius: 2px; padding: 13px 8px; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="border-color: #0E0F11;">Offerte</button>
+                  <button data-i18n="det.cta4" style="background: none; color: #0E0F11; border: 1px solid #D8D4CC; border-radius: 2px; padding: 13px 8px; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="border-color: #0E0F11;">Inruilvoorstel</button>
+                  <button onClick="{{ jumpBezichtiging }}" data-i18n="det.cta5" style="background: none; color: #0E0F11; border: 1px solid #D8D4CC; border-radius: 2px; padding: 13px 8px; font-size: 13px; font-weight: 600; cursor: pointer;" style-hover="border-color: #0E0F11;">Bezichtiging</button>
+                  <a href="https://wa.me/31621336156" style="text-align: center; border: 1px solid #D8D4CC; border-radius: 2px; padding: 13px 8px; font-size: 13px; font-weight: 600;" style-hover="border-color: #0E0F11;">WhatsApp</a>
+                </div>
+                <a href="tel:+31621336156" data-i18n="det.call" style="text-align: center; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 13px; font-size: 14px; font-weight: 600;" style-hover="border-color: #0E0F11;">Bel 06 21 33 61 56</a>
+              </div>
+            </div>
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 22px;">
+              <h3 data-i18n="det.dealer" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 14px;">Verkocht door</h3>
+              <div style="display: flex; gap: 14px; align-items: center;">
+                <div style="width: 52px; height: 52px; flex: 0 0 52px; border-radius: 50%; background: repeating-linear-gradient(135deg, #E9E6E0 0 8px, #E1DDD6 8px 16px);"></div>
+                <div>
+                  <div style="font-weight: 600; font-size: 15px;">F&amp;F Cars B.V. — Fatih</div>
+                  <div style="font-size: 13px; color: #6E6E6E;">Bolderweg 34A, Almere</div>
+                </div>
+              </div>
+              <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #EFEDE9; display: grid; gap: 8px; font-size: 13px; color: #4A4C50;">
+                <div style="display: flex; justify-content: space-between;"><span data-i18n="det.open">Vandaag open</span><span style="font-weight: 500;">10:00 – 18:00</span></div>
+                <div style="display: flex; justify-content: space-between;"><span>Marktplaats</span><span style="font-weight: 500;">4,5 ★ (22)</span></div>
+                <a href="https://maps.google.com/?q=Bolderweg+34A+1332AW+Almere" data-i18n="show.route" style="color: #B4762C; font-weight: 600;">Route plannen →</a>
+              </div>
+            </div>
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 22px;">
+              <h3 data-i18n="det.share" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 12px;">Deel deze auto</h3>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #4A4C50; background: #F6F5F2; border: 1px solid #EFEDE9; padding: 10px; word-break: break-all;">{{ sel.url }}</div>
+              <p data-i18n="det.shareNote" style="margin: 10px 0 0; font-size: 12px; color: #8A8A8A; line-height: 1.5;">Eigen URL per auto: deelbaar via WhatsApp met voorbeeld, en indexeerbaar door Google.</p>
+            </div>
+          </aside>
+        </div>
+
+        <h2 data-i18n="det.similar" style="font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600; margin: 48px 0 14px;">Vergelijkbare auto's</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
+          <sc-for list="{{ similar }}" as="car" hint-placeholder-count="4">
+            <article onClick="{{ car.open }}" style="background: #fff; border: 1px solid #E2DFD9; border-radius: 3px; overflow: hidden; cursor: pointer;" style-hover="border-color: #0E0F11;">
+              <div style="{{ car.coverStyle }}">
+                <span style="{{ car.slotStyle }}">{{ car.slot }}</span>
+              </div>
+              <div style="padding: 14px;">
+                <h3 style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 4px;">{{ car.name }}</h3>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6E6E6E; margin-bottom: 10px;">{{ car.reg }} · {{ car.kmLabel }}</div>
+                <span style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 18px;">{{ car.priceLabel }}</span>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+      <main id="top" style="max-width: 1240px; margin: 0 auto; padding: 28px 24px 80px;">
+        <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 12px;">
+          <a href="#top" onClick="{{ goHome }}" data-i18n="nav.home" style="color: #8A8A8A;">Home</a> / <span data-i18n="nav.contact" style="color: #0E0F11;">Contact</span>
+        </p>
+        <h1 data-i18n="show.title" style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: clamp(26px, 3.4vw, 40px); letter-spacing: -0.02em; margin: 0 0 8px;">Kom langs, de koffie staat klaar</h1>
+        <p data-i18n="contact.sub" style="font-size: 16px; color: #4A4C50; margin: 0 0 28px; max-width: 56ch;">Showroom aan de Bolderweg 34A in Almere. Bel, app of vul het formulier in — u krijgt binnen één werkdag antwoord.</p>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+          <div style="flex: 2 1 380px; min-width: 280px; background: #fff; border: 1px solid #E2DFD9; padding: 24px;">
+            <h2 data-i18n="contact.formTitle" style="font-family: 'Archivo', sans-serif; font-size: 19px; font-weight: 600; margin: 0 0 18px;">Stuur ons een bericht</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px;">
+              <div>
+                <label data-i18n="form.name" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Naam</label>
+                <input style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px;" />
+              </div>
+              <div>
+                <label data-i18n="form.phone" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Telefoon</label>
+                <input style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px;" />
+              </div>
+              <div>
+                <label data-i18n="form.email" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">E-mail</label>
+                <input style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px;" />
+              </div>
+              <div>
+                <label data-i18n="form.subject" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Onderwerp</label>
+                <select style="width: 100%; appearance: none; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px; cursor: pointer;">
+                  <sc-for list="{{ subjectOptions }}" as="s" hint-placeholder-count="4">
+                    <option value="{{ s }}">{{ s }}</option>
+                  </sc-for>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top: 14px;">
+              <label data-i18n="form.msg" style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8A8A; margin-bottom: 7px;">Bericht</label>
+              <textarea rows="5" style="width: 100%; background: #F6F5F2; border: 1px solid #D8D4CC; border-radius: 2px; padding: 12px; font-size: 15px; resize: vertical;"></textarea>
+            </div>
+            <button data-i18n="form.send" style="margin-top: 16px; background: #0E0F11; color: #F6F5F2; border: none; border-radius: 2px; padding: 15px 24px; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: #B4762C;">Verstuur aanvraag</button>
+            <p data-i18n="contact.privacy" style="margin: 12px 0 0; font-size: 12px; color: #8A8A8A;">Uw gegevens worden alleen gebruikt om uw vraag te beantwoorden.</p>
+          </div>
+
+          <div style="flex: 1 1 280px; min-width: 260px; display: grid; gap: 12px;">
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 22px;">
+              <h3 data-i18n="show.addr" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 12px;">Adres</h3>
+              <div style="font-size: 15px; line-height: 1.6;">
+                <div style="font-weight: 500;">F&amp;F Cars B.V.</div>
+                <div>Bolderweg 34A</div>
+                <div>1332 AW Almere</div>
+              </div>
+              <a href="https://maps.google.com/?q=Bolderweg+34A+1332AW+Almere" data-i18n="show.route" style="display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 600; color: #B4762C; border-bottom: 1px solid #B4762C;">Route plannen →</a>
+            </div>
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 22px;">
+              <h3 data-i18n="show.hours" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 12px;">Openingstijden</h3>
+              <div style="display: grid; gap: 7px; font-size: 15px;">
+                <div style="display: flex; justify-content: space-between;"><span data-i18n="show.d1" style="color: #6E6E6E;">Maandag – zaterdag</span><span style="font-weight: 500;">10:00 – 18:00</span></div>
+                <div style="display: flex; justify-content: space-between;"><span data-i18n="show.d3" style="color: #6E6E6E;">Zondag</span><span data-i18n="show.closed" style="font-weight: 500;">Gesloten</span></div>
+              </div>
+              <p data-i18n="show.appt" style="margin: 12px 0 0; font-size: 13px; color: #8A8A8A;">Buiten openingstijden op afspraak.</p>
+            </div>
+            <div style="background: #fff; border: 1px solid #E2DFD9; padding: 22px;">
+              <h3 data-i18n="show.contact" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8A8A8A; margin: 0 0 12px;">Direct contact</h3>
+              <div style="display: grid; gap: 9px; font-size: 15px;">
+                <a href="tel:+31621336156" style="font-weight: 600;">06 21 33 61 56</a>
+                <a href="https://wa.me/31621336156">WhatsApp</a>
+                <a href="mailto:contact@ffcars.nl">contact@ffcars.nl</a>
+                <span style="font-size: 13px; color: #6E6E6E;">Sales: Fatih · KvK 98330004</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; min-height: 320px; background: repeating-linear-gradient(135deg, #E9E6E0 0 12px, #E1DDD6 12px 24px); border: 1px solid #E2DFD9; display: flex; align-items: center; justify-content: center;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8A8A8A;">[ Google Maps embed — Bolderweg 34A, Almere ]</span>
+        </div>
+      </main>
+    </sc-if>
+
+    <footer style="background: #0E0F11; color: #C9C6C0;">
+      <div style="max-width: 1240px; margin: 0 auto; padding: 48px 24px 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;">
+        <div>
+          <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=180,fit=crop/YrD4BwB2MWi5x2nJ/2-7CVSyjv09sICH1wy.png" alt="F&amp;F Cars B.V." style="height: 38px; width: auto; margin-bottom: 16px;" />
+          <p data-i18n="foot.blurb" style="margin: 0; font-size: 13px; line-height: 1.6; max-width: 34ch;">In- en verkoop van betrouwbare occasions. Bolderweg 34A, 1332 AW Almere.</p>
+        </div>
+        <div>
+          <h3 data-i18n="foot.nav" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; margin: 0 0 14px;">Navigatie</h3>
+          <div style="display: grid; gap: 9px; font-size: 14px;">
+            <a href="#top" onClick="{{ goList }}" data-i18n="nav.stock" style="color: #C9C6C0;" style-hover="color: #B4762C;">Aanbod</a>
+            <a href="#top" onClick="{{ goSell }}" data-i18n="nav.sell" style="color: #C9C6C0;" style-hover="color: #B4762C;">Auto verkopen</a>
+            <a href="#top" onClick="{{ goAbout }}" data-i18n="nav.about" style="color: #C9C6C0;" style-hover="color: #B4762C;">Over ons</a>
+            <a href="#top" onClick="{{ goContact }}" data-i18n="nav.contact" style="color: #C9C6C0;" style-hover="color: #B4762C;">Contact</a>
+            <a href="#top" data-i18n="foot.privacy" style="color: #C9C6C0;" style-hover="color: #B4762C;">Privacyverklaring</a>
+          </div>
+        </div>
+        <div>
+          <h3 data-i18n="foot.contact" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; margin: 0 0 14px;">Contact</h3>
+          <div style="display: grid; gap: 9px; font-size: 14px;">
+            <a href="tel:+31621336156" style="color: #C9C6C0;" style-hover="color: #B4762C;">06 21 33 61 56</a>
+            <a href="mailto:contact@ffcars.nl" style="color: #C9C6C0;" style-hover="color: #B4762C;">contact@ffcars.nl</a>
+            <a href="https://wa.me/31621336156" style="color: #C9C6C0;" style-hover="color: #B4762C;">WhatsApp</a>
+            <span style="color: #6E6E6E;">Ma–za 10:00–18:00</span>
+          </div>
+        </div>
+        <div>
+          <h3 data-i18n="foot.social" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E6E6E; margin: 0 0 14px;">Volg ons</h3>
+          <div style="display: grid; gap: 9px; font-size: 14px;">
+            <a href="https://www.instagram.com/ffcars_nl/" aria-label="Instagram ffcars_nl" style="color: #C9C6C0;" style-hover="color: #B4762C;">Instagram</a>
+            <a href="https://www.linkedin.com/company/ff-cars-bv/" aria-label="LinkedIn F&amp;F Cars B.V." style="color: #C9C6C0;" style-hover="color: #B4762C;">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top: 1px solid #24262A;">
+        <div style="max-width: 1240px; margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6E6E6E;">
+          <span>© 2026 F&amp;F Cars B.V.</span>
+          <span>KvK 98330004 · Almere</span>
+        </div>
+      </div>
+    </footer>
+
+    <div style="{{ stickyBarStyle }}">
+      <a href="tel:+31621336156" data-i18n="det.callShort" style="flex: 1; text-align: center; background: #1A1C1F; color: #F6F5F2; border: 1px solid #33363A; border-radius: 2px; padding: 14px; font-size: 14px; font-weight: 600;">Bel ons</a>
+      <a href="https://wa.me/31621336156" style="flex: 1; text-align: center; background: #B4762C; color: #fff; border-radius: 2px; padding: 14px; font-size: 14px; font-weight: 600;">WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
+const IMG = (id) => id.indexOf("mp:") === 0
+  ? "https://images.marktplaats.com/api/v1/hz-mp-pro-listing/images/" + id.slice(3) + "?rule=ecg_mp_eps$_85"
+  : "https://prod.pictures.autoscout24.net/listing-images/" + id + ".jpg/420x315.jpg";
+
+// Echte voorraad F&F Cars B.V. (AutoScout24, juli 2026)
+const CARS = [
+  { brand: "Alfa Romeo", model: "GT", trim: "2.0 JTS Distinctive", eq: ["Automaat", "Leder", "Bose audio", "2e eigenaar"], price: 4250, km: 102500, reg: "06/2006", kw: 122, pk: 166, gear: "Automaat", fuel: "Benzine", co2: 207, body: "Coupé", doors: 3, photos: 50, img: "d442be9b-e93c-49ba-8ef7-481c82c530ef_bcfd6f34-ae56-4985-aa85-074209f68534" },
+  { brand: "Renault", model: "Twingo", trim: "1.2 'Matic", eq: ["Vol automaat", "NAP", "APK 06-2027"], price: 1199, km: 125670, reg: "01/2000", kw: 43, pk: 58, gear: "Automaat", fuel: "Benzine", co2: 166, body: "Hatchback", doors: 3, photos: 30, reserved: true },
+  { brand: "Suzuki", model: "Swift", trim: "1.5 GLS", eq: ["Automaat", "Airco", "NAP", "2 sleutels"], price: 3990, km: 172463, reg: "07/2006", kw: 75, pk: 102, gear: "Automaat", fuel: "Benzine", co2: 170, body: "Hatchback", doors: 5, photos: 28 },
+  { brand: "Kia", model: "Sportage", trim: "2.7 V6 Adventure 4WD", eq: ["Automaat", "Trekhaak", "Carplay", "NAP"], price: 4490, oldPrice: 4990, km: 142150, reg: "06/2005", kw: 129, pk: 175, gear: "Automaat", fuel: "Benzine", co2: 237, body: "SUV", doors: 5, photos: 34 },
+  { brand: "Audi", model: "A8", trim: "6.0 W12 quattro Pro Line+", eq: ["451 pk", "Leder", "Massagestoelen", "Standkachel"], price: 18990, km: 102782, reg: "03/2008", kw: 331, pk: 450, gear: "Automaat", fuel: "Benzine", co2: 350, body: "Sedan", doors: 4, photos: 42 },
+  { brand: "Dacia", model: "Duster", trim: "1.2 TCe Lauréate", eq: ["NAP", "CarPlay", "Cruise control", "Leder"], price: 5250, km: 150709, reg: "08/2014", kw: 92, pk: 125, gear: "Handgeschakeld", fuel: "Benzine", co2: 145, body: "SUV", doors: 5, photos: 26 },
+  { brand: "smart", model: "forTwo", trim: "coupé 1.0 Pulse", eq: ["Semi-automaat", "Panoramadak", "71 pk"], price: 1750, km: 158400, reg: "09/2007", kw: 52, pk: 71, gear: "Automaat", fuel: "Benzine", co2: 112, body: "Coupé", doors: 3, photos: 24, img: "ca39ca8a-322a-4dbe-b17d-e0ce01defe9d_03a4cee3-988b-4e04-b3f4-ce81978c6810" },
+  { brand: "Audi", model: "TT", trim: "2.0 TFSI", eq: ["200 pk", "Handgeschakeld", "Leder", "Stoelverwarming"], price: 10490, km: 153174, reg: "10/2007", kw: 147, pk: 200, gear: "Handgeschakeld", fuel: "Benzine", co2: 183, body: "Coupé", doors: 3, photos: 38 },
+  { brand: "Skoda", model: "Octavia Combi", trim: "1.5 TSI 150hp", eq: ["Virtuele cockpit", "Adaptive cruise", "Trekhaak"], price: 17499, km: 115670, reg: "07/2020", kw: 110, pk: 150, gear: "Automaat", fuel: "Benzine", co2: 116, body: "Stationwagen", doors: 5, photos: 46 },
+  { brand: "Peugeot", model: "2008", trim: "1.2 PureTech", eq: ["Panoramadak", "Camera", "Carplay", "Cruise control"], price: 5350, km: 175067, reg: "11/2014", kw: 60, pk: 82, gear: "Automaat", fuel: "Benzine", co2: 99, body: "SUV", doors: 5, photos: 32 },
+  { brand: "Hyundai", model: "Santa Fe", trim: "2.7i V6 4WD", eq: ["NAP", "Automaat", "Carplay", "Camera", "APK"], price: 3999, oldPrice: 4499, km: 125540, reg: "06/2005", kw: 127, pk: 173, gear: "Automaat", fuel: "Benzine", co2: 274, body: "SUV", doors: 5, photos: 30, owners: 4 },
+  { brand: "Nissan", model: "Micra", trim: "1.2 DIG-S Tekna", eq: ["Panoramadak", "Navigatie", "Cruise control", "NAP"], price: 4750, km: 160580, reg: "08/2012", kw: 72, pk: 98, gear: "Handgeschakeld", fuel: "Benzine", co2: 99, body: "Hatchback", doors: 5, photos: 27 },
+  { brand: "Hyundai", model: "Matrix", trim: "1.6i Dynamic", eq: ["Automaat", "Airco", "NAP", "APK 05-2027"], price: 2750, km: 133250, reg: "05/2005", kw: 76, pk: 103, gear: "Automaat", fuel: "Benzine", co2: 198, body: "MPV", doors: 5, photos: 25, img: "2a3a8f4d-e37c-4553-9c0f-7387700963a1_2c731b6b-ddba-4a50-b6a0-9b46ced060b2" },
+  { brand: "SEAT", model: "Leon ST", trim: "1.8 TSI FR Dynamic", eq: ["Automaat", "CarPlay", "Camera", "Trekhaak"], price: 10250, km: 192284, reg: "03/2015", kw: 132, pk: 179, gear: "Automaat", fuel: "Benzine", co2: 132, body: "Stationwagen", doors: 5, photos: 40 },
+  { brand: "Audi", model: "A3 Limousine", trim: "1.4 TFSI CoD Adrenalin Sport", eq: ["S-Line", "Automaat", "B&O audio", "Trekhaak"], price: 11999, km: 261951, reg: "07/2016", kw: 110, pk: 150, gear: "Automaat", fuel: "Benzine", co2: 104, body: "Sedan", doors: 4, photos: 44 },
+  { brand: "Audi", model: "A3 Sportback", trim: "30 TFSI Advanced Edition", eq: ["Virtual cockpit", "LED", "Fabrieksgarantie"], price: 31950, km: 8743, reg: "02/2025", kw: 85, pk: 116, gear: "Automaat", fuel: "Benzine", co2: 0, body: "Hatchback", doors: 5, photos: 48, btw: 26536 },
+  { brand: "Volkswagen", model: "Polo", trim: "1.2 TSI Original Full R-Line", eq: ["R-Line in en uit", "Airco", "NAP"], price: 7999, km: 171753, reg: "04/2016", kw: 66, pk: 90, gear: "Handgeschakeld", fuel: "Benzine", co2: 107, body: "Hatchback", doors: 5, photos: 36 },
+  { brand: "Citroen", model: "C3", trim: "1.6 VTi Exclusive", eq: ["Automaat", "Panoramaruit", "Cruise control"], price: 6990, km: 108564, reg: "10/2013", kw: 88, pk: 120, gear: "Automaat", fuel: "Benzine", co2: 150, body: "Hatchback", doors: 5, photos: 29 },
+  { brand: "Porsche", model: "Cayenne", trim: "3.6 V6", eq: ["290 pk", "4WD", "Panoramadak", "Volledige historie"], price: 12490, km: 153991, reg: "10/2007", kw: 213, pk: 290, gear: "Automaat", fuel: "Benzine", co2: 310, body: "SUV", doors: 5, photos: 41 }
+];
+
+// Echte advertentiefoto's (Marktplaats-advertenties van F&F Cars B.V.)
+const MP_IMG = {
+  2: "mp:011561ae-948d-45d1-9e0d-593289aa27c2",
+  3: "mp:ebbd6b05-e65b-4683-8c57-e6dd0ac93307",
+  5: "mp:efa0f168-3858-4c96-b164-a71a313b447b",
+  11: "mp:46dfecf3-4210-4c0b-bcdc-1d3256488b32",
+  14: "mp:8a193f0b-84e7-4b50-a3d8-80363a05755c",
+  17: "mp:f2323f0c-3709-4e01-b683-e140cb9462a6",
+  4: "mp:ce6486ec-c179-430f-8205-71ed72b1755e",
+  8: "mp:47ba72aa-ec34-4da7-b0f7-1951dad15ce0",
+  9: "mp:49c6e94c-46af-46d5-9dd9-9b0587b00a51",
+  13: "mp:cb5baa1c-f4eb-4d98-b982-1fddf7cd3c83",
+  15: "mp:6574dd72-28dd-49d8-b6cd-4633e243d6d5"
+};
+
+// Echt aantal foto's per advertentie (alleen waar bekend)
+const REAL_PHOTOS = { 0: 50, 1: 30 };
+
+// Voorbeeldfoto's voor auto's waarvan de advertentiefoto's nog niet gekoppeld zijn
+const FALLBACK = [
+  "mp:47ba72aa-ec34-4da7-b0f7-1951dad15ce0",
+  "mp:ce6486ec-c179-430f-8205-71ed72b1755e",
+  "mp:cb5baa1c-f4eb-4d98-b982-1fddf7cd3c83",
+  "mp:49c6e94c-46af-46d5-9dd9-9b0587b00a51",
+  "mp:ebbd6b05-e65b-4683-8c57-e6dd0ac93307"
+];
+
+// Kenteken / APK / kleur per auto (bron: Marktplaats-advertenties F&F Cars B.V.)
+const REG = {
+  0: ["53-SZ-JB", "15-07-2027", "Grijs"], 1: ["89-DT-JB", "12-06-2027", "Beige"],
+  2: ["79-TF-BB", "07-05-2027", "Zwart"], 3: ["36-RL-GV", "29-05-2027", "Zwart"],
+  4: ["HDH-67-R", "24-01-2027", "Grijs"], 5: ["3-XHP-89", "03-09-2026", "Grijs"],
+  6: ["50-XR-VX", "03-11-2026", "Zwart"], 7: ["NX-415-N", "01-10-2026", "Zwart"],
+  8: ["K-708-RD", "24-03-2028", "Blauw"], 9: ["9-XXB-94", "05-09-2026", "Grijs"],
+  10: ["74-RK-RX", "—", "Grijs"], 11: ["34-XVG-2", "17-03-2027", "Zwart"],
+  12: ["86-RK-RX", "19-05-2027", "Grijs"], 13: ["X-136-GG", "09-04-2027", "Grijs"],
+  14: ["JS-725-G", "23-04-2027", "Zwart"], 15: ["JNR-16-N", "17-02-2029", "Grijs"],
+  16: ["—", "—", "Wit"], 17: ["7-SLF-59", "08-12-2026", "Zwart"],
+  18: ["—", "—", "Zwart"]
+};
+
+const EXTRA_OPTIONS = ["Airconditioning", "Elektrische ramen", "Centrale vergrendeling", "Bluetooth", "Parkeersensoren", "Lichtmetalen velgen", "Isofix", "Startonderbreker"];
+
+const EN = {
+  "nav.home": "Home", "nav.stock": "Stock", "nav.sell": "Sell your car", "nav.about": "About us", "nav.contact": "Contact",
+  "hero.eyebrow": "Almere · Bolderweg 34A · Chamber of Commerce 98330004",
+  "hero.title": "Reliable used cars, delivered road-ready.",
+  "hero.sub": "19 cars in stock at our Almere showroom — from a € 1,750 smart forTwo to an Audi A8 W12. Every car with MOT, service, verified mileage and 6 months warranty.",
+  "hero.cta1": "Browse all 19 cars", "hero.cta2": "Book a viewing",
+  "f.brand": "Make", "f.maxprice": "Price up to", "f.fuel": "Fuel", "f.gear": "Transmission", "f.body": "Body", "f.search": "Search",
+  "trust.stock": "CARS IN STOCK", "trust.warr": "6 MONTHS WARRANTY",
+  "strip.claim": "Road-ready · MOT · 6 months warranty",
+  "cert.bovagT": "Warranty", "cert.rdwT": "Recognised dealer", "cert.napT": "Verified",
+  "cert.revT": "22 reviews", "cert.warrT": "Months warranty", "cert.stockT": "Cars in stock", "cert.apkT": "On delivery",
+  "cert.note": "Drag the official BOVAG, RDW and NAP marks into the empty slots — you receive those files with your membership.",
+  "feat.eyebrow": "Featured stock", "feat.title": "New in the showroom", "feat.all": "All 19 cars",
+  "incl.eyebrow": "Road-ready delivery", "incl.title": "What is included with every car",
+  "incl.1t": "Fresh MOT", "incl.1b": "Full inspection on delivery, no surprises later.",
+  "incl.2t": "Full service", "incl.2b": "Oil, filters and fluids replaced before you drive off.",
+  "incl.3t": "6 months warranty", "incl.3b": "Extendable to 12 months. Terms on a single page.",
+  "incl.4t": "Mileage report", "incl.4b": "Verified mileage, report with every listing.",
+  "incl.note": "Delivery costs € 395 · trade-in possible · financing and extended warranty on request.",
+  "sell.eyebrow": "We buy cars", "sell.title": "Selling your car? Offer within 24 hours.",
+  "sell.body": "Enter your registration or message us on WhatsApp. We also buy without a purchase in return.",
+  "sell.plate": "Registration", "sell.km": "Mileage", "sell.phone": "Phone", "sell.email": "Email",
+  "sell.cta": "Request my offer", "sell.small": "No obligations. Reply within 1 working day.",
+  "about.eyebrow": "About F&F Cars", "about.title": "Buying a car should be simple, transparent and worry-free",
+  "about.body": "From our location in Almere we specialise in buying and selling quality used cars. Every car is carefully selected, inspected and prepared. We would rather build a long relationship than close a transaction.",
+  "about.cta": "Visit us in Almere",
+  "show.title": "Drop by, the coffee is ready",
+  "show.addr": "Address", "show.route": "Get directions →", "show.hours": "Opening hours", "show.contact": "Direct contact",
+  "show.d1": "Monday – Saturday", "show.d3": "Sunday", "show.closed": "Closed",
+  "show.appt": "Outside opening hours by appointment.",
+  "contact.sub": "Showroom at Bolderweg 34A in Almere. Call, message or fill in the form — you get an answer within one working day.",
+  "contact.formTitle": "Send us a message", "contact.privacy": "Your details are only used to answer your question.",
+  "form.name": "Name", "form.phone": "Phone", "form.email": "Email", "form.subject": "Subject", "form.msg": "Message", "form.send": "Send request",
+  "foot.blurb": "Buying and selling reliable used cars. Bolderweg 34A, 1332 AW Almere.",
+  "foot.nav": "Navigation", "foot.contact": "Contact", "foot.social": "Follow us", "foot.privacy": "Privacy policy",
+  "teaser.sellEyebrow": "We buy cars", "teaser.sellLink": "Enter your registration →",
+  "teaser.aboutEyebrow": "About us", "teaser.aboutTitle": "Who we are and where to find us",
+  "teaser.aboutLink": "Showroom and opening hours →",
+  "list.title": "Our stock", "list.filters": "Filters", "list.reset": "Clear", "list.results": "results",
+  "list.sort": "Sort", "list.help": "Need help choosing? Call Fatih.", "list.empty": "No cars match these filters.",
+  "card.view": "View car",
+  "det.specs": "Specifications", "det.options": "Equipment", "det.delivery": "Road-ready delivery",
+  "det.d1": "Fresh MOT on delivery", "det.d2": "Major service", "det.d3": "6 months warranty (12 optional)",
+  "det.d4": "Verified mileage", "det.dnote": "Delivery costs € 395 (registration transfer, fuel, cleaning). Trade-in possible.",
+  "det.form": "Request information about this car",
+  "det.incl1": "incl. VAT", "det.incl2": "road-ready", "det.finance": "Financing from",
+  "fin.title": "Calculate financing", "fin.price": "Purchase price", "fin.down": "Down payment / trade-in",
+  "fin.term": "Term", "fin.rate": "Interest (indicative)", "fin.monthly": "Monthly payment",
+  "fin.loan": "Loan amount", "fin.termLbl": "Term", "fin.cost": "Total interest", "fin.total": "Total payable",
+  "fin.cta": "Discuss my application",
+  "fin.small": "Indicative calculation, not an offer. Final rate after approval by our credit partner. Note: borrowing money costs money.",
+  "book.title": "Schedule a viewing or test drive", "book.pickDay": "1 · Pick a day",
+  "book.pickTime": "2 · Pick a time slot", "book.yourDetails": "3 · Your details",
+  "book.legend": "Crossed-out times are already booked. Takes about 45 minutes, test drive included.",
+  "book.tradeIn": "I would also like a trade-in offer for my current car",
+  "book.summaryLabel": "Your appointment",
+  "det.cta1": "Schedule a test drive", "det.cta2": "Calculate financing", "det.cta3": "Quote",
+  "det.cta4": "Trade-in offer", "det.cta5": "Viewing", "det.call": "Call 06 21 33 61 56", "det.callShort": "Call us",
+  "det.dealer": "Sold by", "det.open": "Open today", "det.similar": "Similar cars",
+  "det.share": "Share this car", "det.shareNote": "Own URL per car: shareable on WhatsApp with a preview, and indexable by Google."
+};
+
+const SPEC_EN = {
+  "Prijs": "Price", "Eerste registratie": "First registration", "Kilometerstand": "Mileage", "Brandstof": "Fuel",
+  "Transmissie": "Transmission", "Vermogen": "Power", "Carrosserie": "Body", "Aantal deuren": "Doors",
+  "Aantal zitplaatsen": "Seats", "Kleur": "Colour", "Kenteken": "Registration", "Staat": "Condition", "Vorige eigenaren": "Previous owners",
+  "CO₂-uitstoot": "CO₂ emissions", "Energielabel": "Energy label", "APK tot": "MOT until", "Garantie": "Warranty",
+  "NAP-controle": "Mileage check", "Voorraadnummer": "Stock no.", "BTW": "VAT"
+};
+
+const navStyle = (active) => "padding: 6px 0; border-bottom: 2px solid " + (active ? "#B4762C" : "transparent") +
+  "; font-weight: " + (active ? "600" : "500") + "; color: " + (active ? "#0E0F11" : "#4A4C50") + ";";
+
+class Component extends DCLogic {
+  state = {
+    screen: "home", lang: "nl", viewport: "desktop",
+    brand: "all", price: "all", gear: "all", body: "all", km: 270000, year: 2000,
+    sort: "new", selected: 8, photo: 1,
+    bookType: "bezichtiging", bookDay: 0, bookSlot: "", booked: "",
+    finDown: null, finTerm: 48, finRate: 79
+  };
+
+  jump(id) {
+    if (typeof window === "undefined") return;
+    setTimeout(() => {
+      const el = document.getElementById(id || "bezichtiging");
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
+    }, 60);
+  }
+
+  days() {
+    const out = [];
+    const d = new Date(2026, 6, 27);
+    while (out.length < 8) {
+      if (d.getDay() !== 0) out.push(new Date(d));
+      d.setDate(d.getDate() + 1);
+    }
+    return out;
+  }
+
+  slots(dayIdx) {
+    const out = [];
+    for (let h = 10; h < 18; h++) {
+      for (const m of [0, 30]) {
+        const label = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+        out.push({ label, taken: (h * 2 + (m ? 1 : 0) + dayIdx * 3) % 5 === 0 });
+      }
+    }
+    return out;
+  }
+  rootRef = React.createRef();
+
+  componentDidMount() { this.applyLang(); }
+  componentDidUpdate() { this.applyLang(); }
+
+  applyLang() {
+    const root = this.rootRef.current;
+    if (!root) return;
+    for (const el of root.querySelectorAll("[data-i18n]")) {
+      if (el.dataset.nlText === undefined) el.dataset.nlText = el.textContent;
+      const key = el.getAttribute("data-i18n");
+      const next = this.state.lang === "en" ? (EN[key] || el.dataset.nlText) : el.dataset.nlText;
+      if (el.textContent !== next) el.textContent = next;
+    }
+  }
+
+  go(screen) {
+    return (e) => {
+      if (e && e.preventDefault) e.preventDefault();
+      this.setState({ screen });
+      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+  }
+
+  fmt(n) { return "€ " + n.toLocaleString("nl-NL"); }
+  slug(c) { return (c.brand + "-" + c.model + "-" + c.trim).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, ""); }
+
+  decorate(car, i) {
+    const en = this.state.lang === "en";
+    const monthly = Math.max(29, Math.round(car.price / 72 + 19));
+    const own = MP_IMG[i] || car.img;
+    const photo = own || FALLBACK[i % FALLBACK.length];
+    const hasImg = true;
+    const pc = REAL_PHOTOS[i];
+    return Object.assign({}, car, {
+      id: i,
+      name: car.brand + " " + car.model,
+      priceLabel: this.fmt(car.price),
+      oldPriceLabel: car.oldPrice ? this.fmt(car.oldPrice) : "",
+      kmLabel: car.km.toLocaleString("nl-NL") + " km",
+      hpLabel: car.pk + " pk",
+      gear: en ? (car.gear === "Automaat" ? "Automatic" : "Manual") : car.gear,
+      fuelLabel: en ? ({ Benzine: "Petrol", Diesel: "Diesel", Hybride: "Hybrid" }[car.fuel] || car.fuel) : car.fuel,
+      monthLabel: (en ? "from € " : "v.a. € ") + monthly + (en ? " /mo" : " p/m"),
+      monthBare: "€ " + monthly + (en ? " /mo" : " p/m"),
+      photoLabel: (pc && own) ? pc + " FOTO'S" : "",
+      countStyle: (pc && own)
+        ? "position: absolute; top: 10px; left: 10px; background: #0E0F11; color: #F6F5F2; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; padding: 5px 8px;"
+        : "display: none;",
+      exampleStyle: own
+        ? "display: none;"
+        : "position: absolute; bottom: 10px; left: 10px; background: rgba(246,245,242,0.92); color: #6E6E6E; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; padding: 4px 7px;",
+      tags: car.eq.slice(0, 3),
+      url: "ffcars.nl/occasions/" + this.slug(car),
+      coverStyle: "position: relative; aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; " +
+        (hasImg
+          ? "background: #E9E6E0 url('" + IMG(photo) + "') center/cover no-repeat;"
+          : "background: repeating-linear-gradient(135deg, #E9E6E0 0 12px, #E1DDD6 12px 24px);"),
+      slotStyle: hasImg ? "display: none;" : "font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #8A8A8A; text-align: center; padding: 0 10px;",
+      slot: "[ foto — " + this.slug(car).slice(0, 28) + " ]",
+      dealStyle: (car.oldPrice || car.reserved)
+        ? "position: absolute; top: 10px; right: 10px; background: " + (car.reserved ? "#4A4C50" : "#B4762C") + "; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; padding: 5px 8px;"
+        : "display: none;",
+      dealLabel: car.reserved ? (en ? "RESERVED" : "GERESERVEERD") : (car.oldPrice ? (en ? "PRICE DROP" : "PRIJSVERLAGING") : ""),
+      open: () => { this.setState({ screen: "detail", selected: i, photo: 1 }); if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" }); }
+    });
+  }
+
+  filtered() {
+    const s = this.state;
+    const list = CARS.map((c, i) => ({ c, i })).filter(({ c }) =>
+      (s.brand === "all" || c.brand === s.brand) &&
+      (s.price === "all" || c.price <= Number(s.price)) &&
+      (s.gear === "all" || c.gear === s.gear) &&
+      (s.body === "all" || c.body === s.body) &&
+      c.km <= Number(s.km) &&
+      Number(c.reg.slice(3)) >= Number(s.year)
+    );
+    const by = {
+      low: (a, b) => a.c.price - b.c.price,
+      high: (a, b) => b.c.price - a.c.price,
+      km: (a, b) => a.c.km - b.c.km,
+      year: (a, b) => Number(b.c.reg.slice(3)) - Number(a.c.reg.slice(3)),
+      new: (a, b) => a.i - b.i
+    };
+    return list.sort(by[s.sort] || by.new);
+  }
+
+  chipStyle(active) {
+    return "flex: 1; cursor: pointer; border-radius: 2px; padding: 10px 6px; font-size: 12px; font-weight: 600; border: 1px solid " +
+      (active ? "#0E0F11" : "#D8D4CC") + "; background: " + (active ? "#0E0F11" : "#F6F5F2") + "; color: " + (active ? "#F6F5F2" : "#0E0F11") + ";";
+  }
+  tabStyle(active) {
+    return "border: none; border-radius: 2px; padding: 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; background: " +
+      (active ? "#B4762C" : "transparent") + "; color: " + (active ? "#fff" : "#8A8A8A") + ";";
+  }
+  thumbStyle(active, img) {
+    return "aspect-ratio: 4 / 3; cursor: pointer; padding: 0; color: #8A8A8A; font-family: 'JetBrains Mono', monospace; font-size: 10px; border: " +
+      (active ? "2px solid #0E0F11" : "1px solid #E2DFD9") + "; " +
+      (img ? "background: #E9E6E0 url('" + img + "') center/cover no-repeat; color: transparent;"
+           : "background: repeating-linear-gradient(135deg, #E9E6E0 0 10px, #E1DDD6 10px 20px);");
+  }
+
+  renderVals() {
+    const s = this.state;
+    const en = s.lang === "en";
+    const list = this.filtered();
+    const selIdx = Math.min(s.selected, CARS.length - 1);
+    const raw = CARS[selIdx];
+    const sel = this.decorate(raw, selIdx);
+    const brands = Array.from(new Set(CARS.map(c => c.brand))).sort();
+    const bodies = Array.from(new Set(CARS.map(c => c.body))).sort();
+
+    const specRows = [
+      ["Prijs", this.fmt(raw.price) + (raw.btw ? (en ? " incl. VAT" : " incl. BTW") : "")],
+      ["Eerste registratie", raw.reg],
+      ["Kilometerstand", raw.km.toLocaleString("nl-NL") + " km"],
+      ["Brandstof", sel.fuelLabel],
+      ["Transmissie", sel.gear],
+      ["Vermogen", raw.kw + " kW (" + raw.pk + " pk)"],
+      ["Carrosserie", raw.body],
+      ["Aantal deuren", String(raw.doors)],
+      ["Aantal zitplaatsen", raw.body === "Coupé" && raw.doors === 3 ? "4" : "5"],
+      ["Kleur", (REG[selIdx] || [])[2] || "—"],
+      ["Kenteken", (REG[selIdx] || [])[0] || "—"],
+      ["Staat", en ? "Used" : "Gebruikt"],
+      ["Vorige eigenaren", raw.owners ? String(raw.owners) : "—"],
+      ["CO₂-uitstoot", raw.co2 ? raw.co2 + " g/km" : "—"],
+      ["APK tot", (REG[selIdx] || [])[1] || "—"],
+      ["Garantie", en ? "6 months" : "6 maanden"],
+      ["NAP-controle", en ? "Verified" : "Gecontroleerd"],
+      ["BTW", raw.btw ? (en ? "Deductible — € " + raw.btw.toLocaleString("nl-NL") + " excl." : "Verrekenbaar — € " + raw.btw.toLocaleString("nl-NL") + " excl.") : (en ? "Margin scheme" : "Marge")],
+      ["Voorraadnummer", "FF-" + String(1000 + selIdx)]
+    ].map(([k, v]) => ({ k: en ? (SPEC_EN[k] || k) : k, v }));
+
+    const selPhoto = MP_IMG[selIdx] || raw.img || FALLBACK[selIdx % FALLBACK.length];
+    const selPhotos = REAL_PHOTOS[selIdx];
+    const heroImg = s.photo === 1 ? IMG(selPhoto) : null;
+
+    const downMax = Math.max(500, Math.round(raw.price * 0.5 / 250) * 250);
+    const finDown = Math.min(s.finDown === null ? Math.round(raw.price * 0.15 / 250) * 250 : s.finDown, downMax);
+    const finLoanAmt = Math.max(0, raw.price - finDown);
+    const r = s.finRate / 1000 / 12;
+    const finMonthly = finLoanAmt === 0 ? 0
+      : Math.round(finLoanAmt * r / (1 - Math.pow(1 + r, -s.finTerm)));
+
+    return {
+      rootRef: this.rootRef,
+      lang: s.lang,
+      isHome: s.screen === "home", isList: s.screen === "list",
+      isDetail: s.screen === "detail", isContact: s.screen === "contact",
+      isSell: s.screen === "sell", isAbout: s.screen === "about",
+      tabSell: this.tabStyle(s.screen === "sell"), tabAbout: this.tabStyle(s.screen === "about"),
+      goHome: this.go("home"), goList: this.go("list"), goDetail: this.go("detail"), goContact: this.go("contact"),
+      goSell: this.go("sell"),
+      goAbout: this.go("about"),
+      aboutPhotoStyle: "position: relative; min-height: 300px; border: 1px solid #E2DFD9; background: #E9E6E0 url('" + IMG(MP_IMG[4]) + "') center 55%/cover no-repeat;",
+      tabHome: this.tabStyle(s.screen === "home"), tabList: this.tabStyle(s.screen === "list"),
+      tabDetail: this.tabStyle(s.screen === "detail"), tabContact: this.tabStyle(s.screen === "contact"),
+      tabDesktop: this.tabStyle(s.viewport === "desktop"), tabMobile: this.tabStyle(s.viewport === "mobile"),
+      setDesktop: () => this.setState({ viewport: "desktop" }),
+      setMobile: () => this.setState({ viewport: "mobile" }),
+      frameStyle: s.viewport === "mobile"
+        ? "width: 402px; max-width: 100%; margin: 24px auto; border: 1px solid #D8D4CC; border-radius: 14px; overflow: hidden; background: #F6F5F2; box-shadow: 0 24px 60px rgba(14,15,17,0.14);"
+        : "width: 100%;",
+      stickyBarStyle: s.viewport === "mobile"
+        ? "position: sticky; bottom: 0; z-index: 55; display: flex; gap: 8px; padding: 10px; background: #0E0F11; border-top: 1px solid #24262A;"
+        : "display: none;",
+      footerSlot: "display: none;",
+      onLang: (e) => this.setState({ lang: e.target.value }),
+      headerRowStyle: "display: flex; align-items: center; gap: " + (s.viewport === "mobile" ? "10px" : "20px") +
+        "; flex-wrap: wrap; max-width: 1240px; margin: 0 auto; padding: " + (s.viewport === "mobile" ? "10px 14px" : "14px 24px") + ";",
+      navStyle: s.viewport === "mobile"
+        ? "order: 3; width: 100%; display: flex; align-items: center; gap: 18px; flex-wrap: nowrap; white-space: nowrap; overflow-x: auto; font-size: 13px; font-weight: 500; padding-bottom: 2px;"
+        : "display: flex; align-items: center; gap: 22px; flex-wrap: nowrap; white-space: nowrap; font-size: 14px; font-weight: 500;",
+      headerWaStyle: s.viewport === "mobile" ? "display: none;"
+        : "display: flex; align-items: center; gap: 8px; background: #0E0F11; color: #F6F5F2; border-radius: 2px; padding: 10px 16px; font-size: 13px; font-weight: 600;",
+      headerWaIconStyle: s.viewport === "mobile" ? "display: none;"
+        : "border: 1px solid #D8D4CC; border-radius: 2px; padding: 10px 12px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em;",
+      navHome: navStyle(s.screen === "home"),
+      navStock: navStyle(s.screen === "list" || s.screen === "detail"),
+      navSell: navStyle(s.screen === "sell"),
+      navAbout: navStyle(s.screen === "about"),
+      navContact: navStyle(s.screen === "contact"),
+      headerActionsStyle: s.viewport === "mobile"
+        ? "display: flex; align-items: center; gap: 8px; margin-left: auto;"
+        : "display: flex; align-items: center; gap: 10px; margin-left: auto;",
+
+      fBrand: s.brand, fPrice: s.price, fGear: s.gear, fBody: s.body, fKm: s.km, fYear: s.year, sort: s.sort,
+      onBrand: (e) => this.setState({ brand: e.target.value }),
+      onPrice: (e) => this.setState({ price: e.target.value }),
+      onGear: (e) => this.setState({ gear: e.target.value }),
+      onBody: (e) => this.setState({ body: e.target.value }),
+      onKm: (e) => this.setState({ km: e.target.value }),
+      onYear: (e) => this.setState({ year: e.target.value }),
+      onSort: (e) => this.setState({ sort: e.target.value }),
+      resetFilters: () => this.setState({ brand: "all", price: "all", gear: "all", body: "all", km: 270000, year: 2000 }),
+      kmLabel: Number(s.km).toLocaleString("nl-NL") + " km",
+      brandOptions: [{ value: "all", label: en ? "All makes" : "Alle merken" }].concat(brands.map(b => ({ value: b, label: b }))),
+      bodyOptions: [{ value: "all", label: en ? "All bodies" : "Alle carrosserieën" }].concat(bodies.map(b => ({ value: b, label: b }))),
+      priceOptions: [{ value: "all", label: en ? "No maximum" : "Geen maximum" }].concat([2500, 5000, 10000, 15000, 20000, 35000].map(p => ({ value: String(p), label: (en ? "up to € " : "tot € ") + p.toLocaleString("nl-NL") }))),
+      gearOptions: [
+        { value: "all", label: en ? "All transmissions" : "Alle transmissies" },
+        { value: "Automaat", label: en ? "Automatic" : "Automaat" },
+        { value: "Handgeschakeld", label: en ? "Manual" : "Handgeschakeld" }
+      ],
+      sortOptions: [
+        { value: "new", label: en ? "Newest listings" : "Nieuwste aanbod" },
+        { value: "low", label: en ? "Price low → high" : "Prijs laag → hoog" },
+        { value: "high", label: en ? "Price high → low" : "Prijs hoog → laag" },
+        { value: "km", label: en ? "Lowest mileage" : "Laagste km-stand" },
+        { value: "year", label: en ? "Newest build year" : "Nieuwste bouwjaar" }
+      ],
+      gearChips: [
+        { label: en ? "All" : "Alle", pick: () => this.setState({ gear: "all" }), style: this.chipStyle(s.gear === "all") },
+        { label: en ? "Manual" : "Manueel", pick: () => this.setState({ gear: "Handgeschakeld" }), style: this.chipStyle(s.gear === "Handgeschakeld") },
+        { label: en ? "Auto" : "Automaat", pick: () => this.setState({ gear: "Automaat" }), style: this.chipStyle(s.gear === "Automaat") }
+      ],
+      subjectOptions: en
+        ? ["Question about a car", "Book a test drive", "Financing", "Trade-in / selling my car", "Other"]
+        : ["Vraag over een auto", "Proefrit inplannen", "Financiering", "Inruil / mijn auto verkopen", "Anders"],
+
+      resultCount: list.length,
+      noResults: list.length === 0,
+      visibleCars: list.map(({ c, i }) => this.decorate(c, i)),
+      featured: [8, 15, 4, 13, 9, 0].map(i => this.decorate(CARS[i], i)),
+      similar: CARS.map((c, i) => ({ c, i })).filter(({ c, i }) => i !== selIdx && c.body === raw.body).slice(0, 4).map(({ c, i }) => this.decorate(c, i)),
+
+      sel,
+      specs: specRows,
+      highlights: [
+        { k: en ? "Mileage" : "Kilometerstand", v: raw.km.toLocaleString("nl-NL") + " km" },
+        { k: en ? "First reg." : "Bouwjaar", v: raw.reg },
+        { k: en ? "Power" : "Vermogen", v: raw.pk + " pk" },
+        { k: en ? "Transmission" : "Transmissie", v: sel.gear },
+        { k: en ? "Fuel" : "Brandstof", v: sel.fuelLabel },
+        { k: "NAP", v: en ? "Verified" : "Gecontroleerd" }
+      ],
+      options: raw.eq.concat(EXTRA_OPTIONS).slice(0, 12),
+      oldPriceStyle: raw.oldPrice
+        ? "margin-top: 6px; font-size: 14px; color: #8A8A8A; text-decoration: line-through;"
+        : "display: none;",
+      formMessage: (en ? "I would like more information about the " : "Ik wil graag meer informatie over de ") + sel.name + " (" + sel.url.split("/").pop() + ").",
+      heroPhotoStyle: "position: relative; aspect-ratio: 3 / 2; border: 1px solid #E2DFD9; display: flex; align-items: center; justify-content: center; " +
+        (heroImg ? "background: #E9E6E0 url('" + heroImg + "') center/cover no-repeat;"
+                 : "background: repeating-linear-gradient(135deg, #E9E6E0 0 14px, #E1DDD6 14px 28px);"),
+      heroSlotStyle: heroImg ? "display: none;" : "font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8A8A8A; text-align: center; padding: 0 68px; max-width: 100%; overflow-wrap: anywhere;",
+      galleryLabel: "[ " + sel.url.split("/").pop() + (en ? " — photo " : " — foto ") + s.photo + " ]",
+      photoCounter: selPhotos ? s.photo + " / " + selPhotos : s.photo + " / 6",
+      counterStyle: "position: absolute; bottom: 12px; right: 12px; background: rgba(14,15,17,0.8); color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 10px;",
+      prevPhoto: () => this.setState(st => ({ photo: st.photo > 1 ? st.photo - 1 : (selPhotos || 6) })),
+      nextPhoto: () => this.setState(st => ({ photo: st.photo < (selPhotos || 6) ? st.photo + 1 : 1 })),
+      finPriceLabel: this.fmt(raw.price),
+      finDownMax: Math.max(500, Math.round(raw.price * 0.5 / 250) * 250),
+      finDown: finDown,
+      finDownLabel: this.fmt(finDown),
+      finRate: s.finRate,
+      finRateLabel: (s.finRate / 10).toFixed(1).replace(".", ",") + " %",
+      onFinDown: (e) => this.setState({ finDown: Number(e.target.value) }),
+      onFinRate: (e) => this.setState({ finRate: Number(e.target.value) }),
+      finTerms: [24, 36, 48, 60, 72].map(t => ({
+        label: t + (en ? " mo" : " mnd"),
+        pick: () => this.setState({ finTerm: t }),
+        style: "cursor: pointer; border-radius: 2px; padding: 10px 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; border: 1px solid " +
+          (s.finTerm === t ? "#0E0F11" : "#D8D4CC") + "; background: " + (s.finTerm === t ? "#0E0F11" : "#F6F5F2") +
+          "; color: " + (s.finTerm === t ? "#F6F5F2" : "#0E0F11") + ";"
+      })),
+      finMonthly: this.fmt(finMonthly) + (en ? " /mo" : " p/m"),
+      finLoan: this.fmt(finLoanAmt),
+      finTermLabel: s.finTerm + (en ? " months" : " maanden"),
+      finInterest: this.fmt(Math.max(0, finMonthly * s.finTerm - finLoanAmt)),
+      finTotal: this.fmt(finMonthly * s.finTerm + finDown),
+      bookTypes: [
+        { key: "bezichtiging", nl: "Bezichtiging", en: "Viewing" },
+        { key: "proefrit", nl: "Proefrit", en: "Test drive" }
+      ].map(t => ({
+        label: en ? t.en : t.nl,
+        pick: () => this.setState({ bookType: t.key, booked: "" }),
+        style: "cursor: pointer; border-radius: 2px; padding: 11px 20px; font-size: 14px; font-weight: 600; border: 1px solid " +
+          (s.bookType === t.key ? "#0E0F11" : "#D8D4CC") + "; background: " + (s.bookType === t.key ? "#0E0F11" : "#F6F5F2") +
+          "; color: " + (s.bookType === t.key ? "#F6F5F2" : "#0E0F11") + ";"
+      })),
+      bookDays: this.days().map((d, i) => {
+        const active = s.bookDay === i;
+        return {
+          dow: (en ? ["zo", "mon", "tue", "wed", "thu", "fri", "sat"] : ["zo", "ma", "di", "wo", "do", "vr", "za"])[d.getDay()],
+          day: String(d.getDate()),
+          month: (en ? ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                     : ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"])[d.getMonth()],
+          pick: () => this.setState({ bookDay: i, bookSlot: "", booked: "" }),
+          style: "cursor: pointer; padding: 10px 6px; border-radius: 2px; text-align: center; border: 1px solid " +
+            (active ? "#0E0F11" : "#D8D4CC") + "; background: " + (active ? "#0E0F11" : "#F6F5F2") +
+            "; color: " + (active ? "#F6F5F2" : "#0E0F11") + ";"
+        };
+      }),
+      bookSlots: this.slots(s.bookDay).map(sl => {
+        const active = s.bookSlot === sl.label;
+        return {
+          label: sl.label,
+          disabled: sl.taken,
+          pick: sl.taken ? () => {} : () => this.setState({ bookSlot: sl.label, booked: "" }),
+          style: "border-radius: 2px; padding: 12px 4px; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; border: 1px solid " +
+            (active ? "#0E0F11" : "#D8D4CC") + "; " +
+            (sl.taken
+              ? "background: #F0EEEA; color: #B7B3AC; text-decoration: line-through; cursor: not-allowed;"
+              : "cursor: pointer; background: " + (active ? "#0E0F11" : "#fff") + "; color: " + (active ? "#F6F5F2" : "#0E0F11") + ";")
+        };
+      }),
+      bookHours: en ? "Mon–Sat 10:00–18:00 · Sunday closed" : "Ma–za 10:00–18:00 · zondag gesloten",
+      bookSummary: (() => {
+        const d = this.days()[s.bookDay];
+        const dow = (en ? ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+                        : ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"])[d.getDay()];
+        const mon = (en ? ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                        : ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"])[d.getMonth()];
+        const type = s.bookType === "proefrit" ? (en ? "Test drive" : "Proefrit") : (en ? "Viewing" : "Bezichtiging");
+        return type + " · " + dow + " " + d.getDate() + " " + mon + (s.bookSlot ? " · " + s.bookSlot : (en ? " · pick a time" : " · kies een tijd"));
+      })(),
+      bookCarLine: sel.name + " · " + sel.trim + " — Bolderweg 34A, Almere",
+      bookDisabled: !s.bookSlot,
+      bookButtonLabel: s.bookSlot
+        ? (en ? "Confirm appointment" : "Afspraak bevestigen")
+        : (en ? "Select a time first" : "Kies eerst een tijd"),
+      bookButtonStyle: "border: none; border-radius: 2px; padding: 15px 24px; font-size: 15px; font-weight: 600; " +
+        (s.bookSlot ? "cursor: pointer; background: #0E0F11; color: #F6F5F2;" : "cursor: not-allowed; background: #E2DFD9; color: #8A8A8A;"),
+      confirmBooking: () => this.setState({ booked: s.bookSlot }),
+      jumpFin: () => this.jump("financiering"),
+      jumpProefrit: () => { this.setState({ bookType: "proefrit" }); this.jump(); },
+      jumpBezichtiging: () => { this.setState({ bookType: "bezichtiging" }); this.jump(); },
+      bookedNoteStyle: s.booked
+        ? "margin-top: 14px; display: flex; gap: 10px; align-items: flex-start; background: #FBF7F1; border: 1px solid #E7D9C3; padding: 14px; font-size: 14px; line-height: 1.5;"
+        : "display: none;",
+      bookedNote: en
+        ? "Request sent. Fatih confirms your appointment by WhatsApp within 1 working day. No obligations — you can cancel free of charge."
+        : "Aanvraag verstuurd. Fatih bevestigt uw afspraak binnen 1 werkdag via WhatsApp. Zonder verplichtingen — kosteloos annuleren mogelijk.",
+      thumbs: Array.from({ length: 6 }, (_, i) => ({
+        label: String(i + 1),
+        pick: () => this.setState({ photo: i + 1 }),
+        style: this.thumbStyle(s.photo === i + 1, i === 0 ? IMG(selPhoto) : null)
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>
